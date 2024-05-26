@@ -2,7 +2,7 @@
 FROM rust:latest AS builder
 
 # Set the working directory inside the container
-WORKDIR /usr/src/myapp
+WORKDIR /usr/src/my_web_resume
 
 # Copy the Cargo.toml and Cargo.lock files
 COPY Cargo.toml Cargo.lock ./
@@ -29,10 +29,10 @@ FROM debian:buster-slim
 WORKDIR /usr/local/bin
 
 # Copy the build artifact from the builder stage
-COPY --from=builder /usr/src/myapp/target/release/myapp .
+COPY --from=builder /usr/src/my_web_resume/target/release/my_web_resume .
 
 # Expose the application port (change if your app uses a different port)
 EXPOSE 8080
 
 # Run the application
-CMD ["./myapp"]
+CMD ["./my_web_resume"]
