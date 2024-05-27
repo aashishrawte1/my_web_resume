@@ -22,11 +22,17 @@ COPY . .
 # Build the final application
 RUN cargo build --release
 
-# Use a minimal base image to run the application
-FROM debian:buster-slim
+# Debugging: list the contents of the target/release directory
+RUN ls -l /usr/src/my_web_resume/target/release
+
+# Use a more recent Debian base image to run the application
+FROM debian:bullseye-slim
 
 # Set the working directory inside the container
 WORKDIR /usr/local/bin
+
+# Install necessary runtime dependencies
+RUN apt-get update && apt-get install -y libssl1.1 ca-certificates && rm -rf /var/lib/apt/lists/*
 
 # Copy the build artifact from the builder stage
 COPY --from=builder /usr/src/my_web_resume/target/release/my_web_resume .
